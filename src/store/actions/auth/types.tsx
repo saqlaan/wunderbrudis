@@ -1,2 +1,3 @@
 export const USER_AUTHENTICATED = 'USER_AUTHENTICATED'
 export const LOGOUT_USER = 'LOGOUT_USER'
+export const RESET_USER = 'RESET_USER'

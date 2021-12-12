@@ -37,12 +37,11 @@ export const login = async ({email, password}: any) => {
   }
 }
 
-export const logout = async ({token}: any) => {
-  
+export const logout = async (token: any) => {
   try {
     const {data} = await apiCaller({
       method: REQUEST_TYPE.GET,
-      endpoint: END_POINTS.login,
+      endpoint: END_POINTS.logout,
       token,
     })
     return data

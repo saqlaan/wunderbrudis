@@ -2,8 +2,9 @@ import React, { useCallback } from 'react';
 import { View, Image } from 'react-native';
 import { Button, StyleService, Text, useStyleSheet} from '@ui-kitten/components';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { onLogoutUser } from '../../store/actions/auth';
+import { getToken } from '../../store/selectors';
 
 export default ({ navigation } : any): React.ReactElement => {
   const dispatch = useDispatch()
@@ -14,6 +15,7 @@ export default ({ navigation } : any): React.ReactElement => {
     dispatch(onLogoutUser())
   }, [])
 
+  const token = useSelector(getToken)
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.headerContainer}>
@@ -26,6 +28,7 @@ export default ({ navigation } : any): React.ReactElement => {
         <Button style={styles.button} appearance='filled' onPress={onLogout}>
           Logout now
         </Button>
+        <Text>{token}</Text>
       </View>
     </SafeAreaView>
   );

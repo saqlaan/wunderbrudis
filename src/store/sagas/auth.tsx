@@ -1,14 +1,12 @@
-import {call, put, takeEvery} from '@redux-saga/core/effects'
+import {call, takeEvery, select, put} from '@redux-saga/core/effects'
 import { logout } from '../../services/api'
-import { LOGOUT_USER, onUserAuthenticated } from '../actions/auth'
-import {
-  LOGIN_PROCESS_START,
-  onLoginFailure,
-  onLoginSuccess
-} from '../actions/login'
+import { LOGOUT_USER, onResetUser } from '../actions/auth'
+import { getToken } from '../selectors'
 
 function* handleLogout({data}: any) {
-  yield call(logout, data)
+  const token = yield select(getToken)
+  yield call(logout, token)
+  yield put(onResetUser())
 }
 
 export default function* () {

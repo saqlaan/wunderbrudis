@@ -11,7 +11,7 @@ export const authReducer = (state = INITIAL_STATE, {type, data} :any) => {
         ...state,
         ...data,
       }
-    case TYPES.LOGOUT_USER:
+    case TYPES.RESET_USER:
       return {
         ...INITIAL_STATE,
       }
