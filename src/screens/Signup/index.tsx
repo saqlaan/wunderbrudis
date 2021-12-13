@@ -176,7 +176,7 @@ export default ({ navigation }: any): React.ReactElement => {
                   </View>
                 }
               </ScrollView>
-              <View>
+              <View style={styles.buttonWrapper}>
                 <Button
                   style={styles.signUpButton}
                   size="large"
@@ -257,5 +257,8 @@ const themedStyles = StyleService.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'background-basic-color-1'
+  },
+  buttonWrapper: {
+    marginTop: 20,
   }
 });

@@ -124,18 +124,20 @@ export default ({ navigation } : any): React.ReactElement => {
                 </View>
               }
             </Layout>
-            <Button
-              style={styles.signInButton}
-              onPressIn={!isLoginLoading? handleSubmit: null}
-              disabled={!isValid}
-              children={isLoginLoading?(LoadingIndicator):<View><Text style={styles.customLoginText} category={'p1'}>Login</Text></View>}
-            />
-            <Button
-              style={styles.signUpButton}
-              appearance='ghost'
-              status='basic'
-              children={<Text category={'h2'}>Don't have an account? Create</Text>}
-              onPress={()=> navigation.navigate(NAVIGATION_STACKS.SIGNUP)}/>
+            <View style={styles.buttonsWrapper}>
+              <Button
+                style={styles.signInButton}
+                onPressIn={!isLoginLoading? handleSubmit: null}
+                disabled={!isValid}
+                children={isLoginLoading?(LoadingIndicator):<View><Text style={styles.customLoginText} category={'p1'}>Login</Text></View>}
+              />
+              <Button
+                style={styles.signUpButton}
+                appearance='ghost'
+                status='basic'
+                children={<Text category={'h2'}>Don't have an account? Create</Text>}
+                onPress={()=> navigation.navigate(NAVIGATION_STACKS.SIGNUP)}/>
+            </View>
           </>
         )}
       </Formik>
@@ -209,6 +211,9 @@ const themedStyles = StyleService.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'background-basic-color-1'
+  },
+  buttonsWrapper: {
+    marginTop: 20,
   }
 });
 
