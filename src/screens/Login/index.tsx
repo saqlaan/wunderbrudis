@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback } from 'react';
 import { View, TouchableWithoutFeedback, Image } from 'react-native';
 import { Button, Layout, StyleService, Text, useStyleSheet, Icon, Spinner } from '@ui-kitten/components';
-import { Formik } from 'formik'
+import { ErrorMessage, Formik } from 'formik'
 
 import { KeyboardAvoidingView } from '../../components/CKeyboardAvoidingView';
 import CInput from '../../components/CustomInput'
@@ -10,7 +10,7 @@ import { NAVIGATION_STACKS } from '../../utils/constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { onLoginStart } from '../../store/actions/login';
-import { getIsLoginLoading, getLoginErrorObj } from '../../store/selectors';
+import { getIsLoginLoading, getLoginErrorObj, getLoginServerErrorList, getServerErrorList } from '../../store/selectors';
 
 const initialValues = {
   email: '',
@@ -23,6 +23,7 @@ export default ({ navigation } : any): React.ReactElement => {
   
   const isLoginLoading = useSelector(getIsLoginLoading)
   const loginError = useSelector(getLoginErrorObj)
+  const loginErrorList = useSelector(getLoginServerErrorList)
 
   const dispatch = useDispatch()
 
@@ -41,13 +42,18 @@ export default ({ navigation } : any): React.ReactElement => {
     resetForm()
   }, [])
 
-  const getErrorMessage = useCallback((error) => {
-    if(error.error) {
-      return error.error
-    }else if(error.message){
-      return error.message
+  const getErrorMessage = useCallback(() => {
+    const errorsList = []
+    if(loginError.errors) {
+      Object.values(loginError.errors).forEach((errorList: any) => errorList.forEach((value: any) => {
+        errorList.push(value)
+      }))
+      return ''
+      // return error.error
+    }else if(loginError.message){
+      return errorsList.push(ErrorMessage)
     }
-  }, [])
+  }, [loginError])
 
   const LoadingIndicator = (props) => (
     <View>
@@ -111,13 +117,16 @@ export default ({ navigation } : any): React.ReactElement => {
               {
                 (loginError) && 
                 <View style={styles.errorWrapper}>
-                  <Text style={styles.errorMsg} status='danger' category={'p2'}>{getErrorMessage(loginError)}</Text>
+                  {loginErrorList.map((value, index) => (
+                      <Text key={index} style={styles.errorMsg} status='danger' category={'p2'}>{value}</Text>
+                  ))}
+                  
                 </View>
               }
             </Layout>
             <Button
               style={styles.signInButton}
-              onPressIn={handleSubmit}
+              onPressIn={!isLoginLoading? handleSubmit: null}
               disabled={!isValid}
               children={isLoginLoading?(LoadingIndicator):<View><Text style={styles.customLoginText} category={'p1'}>Login</Text></View>}
             />
@@ -186,6 +195,8 @@ const themedStyles = StyleService.create({
     backgroundColor: "#fff",
   },
   errorMsg: {
+    marginBottom: 5,
+    textTransform: 'lowercase'
   },
   errorWrapper: {
     backgroundColor: 'background-basic-color-2',

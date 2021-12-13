@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import {
   Button,
@@ -17,8 +17,8 @@ import { NAVIGATION_STACKS } from "../../utils/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CTopNavigation from "../../components/CTopNavigation";
 import { useDispatch, useSelector } from "react-redux";
-import { onCreateAccount } from "../../store/actions/register";
-import { getIsSignupError, getIsSignupLoading, getIsUserCreated } from "../../store/selectors";
+import { onCreateAccount, onResetCreateAccount } from "../../store/actions/register";
+import { getIsSignupError, getIsSignupLoading, getIsUserCreated, getSignUpServerErrorList } from "../../store/selectors";
 
 const initialValues = {
   username: "",
@@ -35,9 +35,14 @@ export default ({ navigation }: any): React.ReactElement => {
   const dispatch = useDispatch();
 
   const isSignuploading = useSelector(getIsSignupLoading)
-  const loginError = useSelector(getIsSignupError)
+  const signupErrorList = useSelector(getSignUpServerErrorList)
   const isUserCreated = useSelector(getIsUserCreated)
 
+  useEffect(()=> {
+    return ()=> {
+      dispatch(onResetCreateAccount())
+    }
+  }, [])
   const renderCheckboxLabel = React.useCallback(
     (evaProps) => (
       <Text {...evaProps} style={styles.termsCheckBoxText}>
@@ -50,6 +55,10 @@ export default ({ navigation }: any): React.ReactElement => {
   const handleFormSubmit = useCallback((values: any, {resetForm})=>{
     dispatch(onCreateAccount(values))
     resetForm()
+  }, [])
+
+  const handleFormChange = useCallback(()=> {
+    alert(1)
   }, [])
 
   const LoadingIndicator = (props) => (
@@ -152,9 +161,12 @@ export default ({ navigation }: any): React.ReactElement => {
                   {renderCheckboxLabel}
                 </CheckBox>
                 {
-                  (loginError) && 
+                  (signupErrorList.length > 0) && 
                   <View style={styles.errorWrapper}>
-                    <Text style={styles.errorMsg} status='danger' category={'p2'}>{'Error! Something went wrong'}</Text>
+                    {signupErrorList.map((value: any, index: any) => (
+                      <Text key={index} style={styles.errorMsg} status='danger' category={'p2'}>{value}</Text>
+                    ))}
+                    
                   </View>
                 }
                 {
@@ -168,7 +180,7 @@ export default ({ navigation }: any): React.ReactElement => {
                 <Button
                   style={styles.signUpButton}
                   size="large"
-                  onPress={handleSubmit}
+                  onPressIn={!isSignuploading? handleSubmit: null}
                   disabled={!isValid}
                   children={isSignuploading?(LoadingIndicator):<View><Text style={styles.customLoginText} category={'p1'}>Register</Text></View>}
                 />
@@ -231,6 +243,8 @@ const themedStyles = StyleService.create({
     marginLeft: 10,
   },
   errorMsg: {
+    marginBottom: 5,
+    textTransform: 'lowercase'
   },
   errorWrapper: {
     backgroundColor: 'background-basic-color-2',

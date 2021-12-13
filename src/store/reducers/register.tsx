@@ -31,8 +31,12 @@ export const registerReducer = (state = INITIAL_STATE, {type, data} : any) => {
         ...state,
         isLoading: false,
         error: true,
-        errorObj: null,
+        errorObj: data,
         created: false
+      }
+    case TYPES.RESET_CREATE_ACCOUNT:
+      return {
+        ...INITIAL_STATE
       }
     default:
       return state

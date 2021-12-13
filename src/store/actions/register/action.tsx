@@ -8,3 +8,5 @@ export const onCreateAccountSuccess = emptyActionCreator(
 export const onCreateaAccountFailure = dataActionCreator(
   TYPES.CREATE_ACCOUT_FAILURE,
 )
+
+export const onResetCreateAccount = emptyActionCreator(TYPES.RESET_CREATE_ACCOUNT)
