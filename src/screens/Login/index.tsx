@@ -42,19 +42,6 @@ export default ({ navigation } : any): React.ReactElement => {
     resetForm()
   }, [])
 
-  const getErrorMessage = useCallback(() => {
-    const errorsList = []
-    if(loginError.errors) {
-      Object.values(loginError.errors).forEach((errorList: any) => errorList.forEach((value: any) => {
-        errorList.push(value)
-      }))
-      return ''
-      // return error.error
-    }else if(loginError.message){
-      return errorsList.push(ErrorMessage)
-    }
-  }, [loginError])
-
   const LoadingIndicator = (props) => (
     <View>
       <Spinner size='small' status={'basic'}/>
@@ -127,7 +114,7 @@ export default ({ navigation } : any): React.ReactElement => {
             <View style={styles.buttonsWrapper}>
               <Button
                 style={styles.signInButton}
-                onPressIn={!isLoginLoading? handleSubmit: null}
+                onPress={!isLoginLoading? handleSubmit: null}
                 disabled={!isValid}
                 children={isLoginLoading?(LoadingIndicator):<View><Text style={styles.customLoginText} category={'p1'}>Login</Text></View>}
               />

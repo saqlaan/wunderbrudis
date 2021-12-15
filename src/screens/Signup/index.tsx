@@ -57,10 +57,6 @@ export default ({ navigation }: any): React.ReactElement => {
     resetForm()
   }, [])
 
-  const handleFormChange = useCallback(()=> {
-    alert(1)
-  }, [])
-
   const LoadingIndicator = (props) => (
     <View>
       <Spinner size='small' status={'basic'}/>
@@ -180,8 +176,7 @@ export default ({ navigation }: any): React.ReactElement => {
                 <Button
                   style={styles.signUpButton}
                   size="large"
-                  onPressIn={!isSignuploading? handleSubmit: null}
-                  disabled={!isValid}
+                  onPress={!isSignuploading? handleSubmit: null}
                   children={isSignuploading?(LoadingIndicator):<View><Text style={styles.customLoginText} category={'p1'}>Register</Text></View>}
                 />
                 <Button
