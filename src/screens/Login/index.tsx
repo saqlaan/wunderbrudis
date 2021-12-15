@@ -20,7 +20,7 @@ const initialValues = {
 export default ({ navigation } : any): React.ReactElement => {
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
   const styles = useStyleSheet(themedStyles);
-  
+
   const isLoginLoading = useSelector(getIsLoginLoading)
   const loginError = useSelector(getLoginErrorObj)
   const loginErrorList = useSelector(getLoginServerErrorList)
@@ -38,6 +38,8 @@ export default ({ navigation } : any): React.ReactElement => {
   );
 
   const handleFormSubmit = useCallback((values: any, {resetForm})=>{
+    console.log(values);
+
     dispatch(onLoginStart(values))
     resetForm()
   }, [])
@@ -102,12 +104,12 @@ export default ({ navigation } : any): React.ReactElement => {
                 }
               />
               {
-                (loginError) && 
+                (loginError) &&
                 <View style={styles.errorWrapper}>
                   {loginErrorList.map((value, index) => (
                       <Text key={index} style={styles.errorMsg} status='danger' category={'p2'}>{value}</Text>
                   ))}
-                  
+
                 </View>
               }
             </Layout>
@@ -203,4 +205,3 @@ const themedStyles = StyleService.create({
     marginTop: 20,
   }
 });
-

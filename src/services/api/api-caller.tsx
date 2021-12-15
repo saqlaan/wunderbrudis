@@ -22,6 +22,8 @@ export default async ({
     responseType: 'json',
   })
     .then(res => {
+      console.log(res);
+
       return res
     })
     .catch(error => {

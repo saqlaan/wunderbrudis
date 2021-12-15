@@ -28,7 +28,7 @@ export default ({ navigation } : any): React.ReactElement => {
         <Button style={styles.button} appearance='filled' onPress={onLogout}>
           Logout now
         </Button>
-        <Text>{token}</Text>
+        <Text>Welcome to Wunderbrudis</Text>
       </View>
     </SafeAreaView>
   );
@@ -54,4 +54,3 @@ const themedStyles = StyleService.create({
     textAlign: 'center'
   },
 });
-

@@ -21,7 +21,7 @@ export const register = async ({username, email, firstname, lastname, password}:
 }
 
 export const login = async ({email, password}: any) => {
-  
+
   try {
     const {data} = await apiCaller({
       method: REQUEST_TYPE.POST,
@@ -31,6 +31,8 @@ export const login = async ({email, password}: any) => {
         password
       }
     })
+    console.log(data);
+
     return data
   } catch (e: any) {
     return {error: true, msg: e?.response?.data}
